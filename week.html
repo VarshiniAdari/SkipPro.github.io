@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week Holidays</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .week-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .week-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .week-table th, .week-table td {
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .week-table th {
+            background-color: #007bff;
+            font-weight: bold;
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .week-header button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            outline: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .week-header button:hover {
+            background-color: #0056b3;
+        }
+
+        .week-header h2 {
+            color: #fff;
+            margin: 0;
+        }
+
+        .report-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            outline: none;
+            font-family: Arial, sans-serif;
+            text-decoration: center;
+        }
+
+        .report-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style checkboxes */
+        .class-checkbox, .date-checkbox {
+            appearance: none; /* Hide default checkbox */
+            -webkit-appearance: none; /* Hide default checkbox for webkit browsers */
+            -moz-appearance: none; /* Hide default checkbox for Firefox */
+            width: 20px;
+            height: 20px;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+            vertical-align: middle;
+            margin: 0;
+            padding: 0;
+        }
+
+        .class-checkbox:checked, .date-checkbox:checked {
+            background-color: #007bff; /* Change background color when checked */
+        }
+    </style>
+</head>
+<body>
+    <h1>Week Holidays</h1>
+
+    <div class="week-container">
+        <table class="week-table">
+            <thead>
+                
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically populated here -->
+            </tbody>
+        </table>
+
+        <div class="week-header">
+            <button onclick="prevWeek()">Previous Week</button>
+            <h2 id="week-dates">Week of 2024-02-12 to 2024-02-18</h2>
+            <button onclick="nextWeek()">Next Week</button>
+        </div>
+
+        <a href="report.html" class="report-button">Show Report</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            populateWeek(new Date('2024-02-12')); // Initial population with start date
+        });
+
+        function populateWeek(startDate) {
+            const weekStart = new Date(startDate);
+            const weekEnd = new Date(startDate);
+            weekEnd.setDate(weekStart.getDate() + 6); // Calculate end date of the week
+
+            // Update week dates header
+            const weekDatesHeader = document.getElementById('week-dates');
+            const startDateStr = formatDate(weekStart);
+            const endDateStr = formatDate(weekEnd);
+            weekDatesHeader.textContent = `Week of ${startDateStr} to ${endDateStr}`;
+
+            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const subjects = ['DSA', 'DTPI', 'DCCN', 'JAVA', 'DMS'];
+
+            // Get the table body element
+            const tableBody = document.querySelector('.week-table tbody');
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            // Loop through each day of the week
+            daysOfWeek.forEach((day, index) => {
+                // Create a new row
+                const row = document.createElement('tr');
+
+                // Create a cell for the day name
+                const dayCell = document.createElement('td');
+                dayCell.textContent = day;
+                row.appendChild(dayCell);
+
+                // Create a cell for the date with checkbox
+                const dateCell = document.createElement('td');
+                const date = new Date(startDate);
+                date.setDate(date.getDate() + index);
+                const dateCheckbox = document.createElement('input');
+                dateCheckbox.type = 'checkbox';
+                dateCheckbox.className = 'date-checkbox';
+                dateCell.textContent = formatDate(date);
+                dateCell.appendChild(dateCheckbox);
+                row.appendChild(dateCell);
+
+                // Create cells for subjects and checkboxes
+                for (let i = 0; i < 5; i++) { // Assuming 5 subjects per day
+                    const subjectCell = document.createElement('td');
+                    const subjectName = subjects[i]; // Get subject name
+                    const subjectCheckbox = document.createElement('input');
+                    subjectCheckbox.type = 'checkbox';
+                    subjectCheckbox.className = 'class-checkbox'; // Add a class to the checkbox for styling or identification
+                    subjectCell.textContent = subjectName; // Display subject name
+                    subjectCell.appendChild(subjectCheckbox); // Append checkbox to the cell
+                    row.appendChild(subjectCell);
+                }
+
+                // Append the row to the table body
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to go to the previous week
+        function prevWeek() {
+            const currentDate = new Date(document.getElementById('week-dates').textContent.split(' ')[2]); // Get current week's start date
+            const prevWeekDate = new Date(currentDate);
+            prevWeekDate.setDate(prevWeekDate.getDate() - 7); // Calculate previous week's start date
+            populateWeek(prevWeekDate);
+        }
+
+        // Function to go to the next week
+        function nextWeek() {
+            const currentDate = new Date(document.getElementById('week-dates').textContent.split(' ')[2]); // Get current week's start date
+            const nextWeekDate = new Date(currentDate);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7); // Calculate next week's start date
+            populateWeek(nextWeekDate);
+        }
+
+        // Function to format date as 'YYYY-MM-DD'
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Function to handle date checkbox click event
+        document.addEventListener('change', function(event) {
+            if (event.target.className === 'date-checkbox') {
+                const checkboxes = event.target.closest('tr').querySelectorAll('.class-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = event.target.checked;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Reports</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap-reverse; /* Reverse wrap to push images to the right */
+}
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .report-box {
+            width: 48%;
+            border: 2px solid #007bff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .report-heading {
+            margin-bottom: 20px;
+        }
+
+        .report-heading h2 {
+            color: #007bff;
+            margin: 0;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .report-content {
+            margin-bottom: 20px;
+        }
+
+        .report-label {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .report-value {
+            color: #007bff;
+            font-size: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .image-container {
+            width: 48%;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="report-box">
+            <div class="report-heading">
+                <h2>Attendance Reports</h2>
+            </div>
+            
+            <div class="report-content">
+                <div class="present-report">
+                    <h3>Present Report</h3>
+                    <table>
+                        <tr>
+                            <th>Attendance Percentage</th>
+                            <td class="report-value" id="present-attendance">Calculating...</td>
+                        </tr>
+                        <tr>
+                            <th>Classes You Can Miss</th>
+                            <td class="report-value" id="missed-classes">Calculating...</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="chart-container">
+                <canvas id="presentChart"></canvas>
+            </div>
+        </div>
+    
+        <div class="report-box">
+            <div class="report-heading">
+                <h2>Overall Report</h2>
+            </div>
+            
+            <div class="report-content">
+                <div class="overall-report">
+                    <h3>Overall Report</h3>
+                    <table>
+                        <tr>
+                            <th>Attendance Percentage</th>
+                            <td class="report-value" id="overall-attendance">Calculating...</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="chart-container">
+                <canvas id="overallChart"></canvas>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="college-image.jpg" alt="Image 1" style="width: 100%;">
+            <img src="meme.jpg" alt="Image 2" style="width: 100%;">
+        </div>
+    </div>
+
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to calculate present attendance
+        function calculatePresentAttendance() {
+            const totalClassesAttended = 30; // Number of classes attended
+            const totalClasses = 36; // Total number of classes
+    
+            // Calculate the attendance percentage
+            const attendancePercentage = (totalClassesAttended / totalClasses) * 100;
+    
+            return attendancePercentage;
+        }
+    
+        // Function to calculate overall attendance
+        function calculateOverallAttendance() {
+            const workingDays = 90; // Assuming 90 working days
+            const classesPerDay = 6; // Assuming 6 classes per day
+            const totalClasses = workingDays * classesPerDay;
+            const attendedClasses = 30; // Number of attended classes
+            const notDoneClasses = totalClasses - 36; // Not done classes for overall report
+    
+            const presentAttendance = calculatePresentAttendance();
+    
+            // Calculate the overall attendance percentage
+            const overallAttendance = (presentAttendance / totalClasses) * 100;
+    
+            return [overallAttendance, attendedClasses, totalClasses, notDoneClasses];
+        }
+    
+        // Calculate and display present report
+        const presentAttendance = calculatePresentAttendance();
+        document.getElementById('present-attendance').textContent = presentAttendance.toFixed(2) + '%';
+    
+        // Calculate missed classes to achieve 85% overall attendance
+        const [overallAttendance, attendedClasses, totalClasses, notDoneClasses] = calculateOverallAttendance();
+        document.getElementById('overall-attendance').textContent = overallAttendance.toFixed(2) + '%';
+    
+        // Calculate and display missed classes
+        const targetAttendance = 85; // Target overall attendance percentage
+        const targetMissedClasses = Math.ceil((totalClasses * (1 - targetAttendance / 100)) - attendedClasses);
+        document.getElementById('missed-classes').textContent = targetMissedClasses;
+    
+        // Pie chart for present report
+        var presentCtx = document.getElementById('presentChart').getContext('2d');
+        var presentChart = new Chart(presentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Attended', 'Not Attended'],
+                datasets: [{
+                    label: 'Present Report',
+                    data: [30, 6], // Example data
+                    backgroundColor: ['#28a745', '#dc3545'],
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Present Report',
+                    fontSize: 16,
+                    fontColor: '#fff'
+                }
+            }
+        });
+    
+        // Pie chart for overall report
+        var overallCtx = document.getElementById('overallChart').getContext('2d');
+        var overallChart = new Chart(overallCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Attended', 'Not Attended', 'Not Done'],
+                datasets: [{
+                    label: 'Overall Report',
+                    data: [attendedClasses, notDoneClasses, totalClasses - attendedClasses - notDoneClasses], // Example data
+                    backgroundColor: ['#28a745', '#dc3545', '#007bff'],
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Overall Report',
+                    fontSize: 16,
+                    fontColor: '#fff'
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #000;
+  color: #fff;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+
+nav ul {
+  list-style: none;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+.email-input {
+  width: 300px; /* Set the width of the input box */
+  height: 40px; /* Set the height of the input box */
+  padding: 10px; /* Add padding inside the input box */
+  font-size: 16px; /* Set the font size of the text */
+  margin-bottom: 10px; /* Add margin below the input box */
+  border: 1px solid #ccc; /* Add a border to the input box */
+  border-radius: 5px; /* Add rounded corners to the input box */
+}
+#login button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#login button:hover {
+  background-color: #0056b3;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+main {
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}

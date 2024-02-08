@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SKIP PRO</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+    .college-image {
+      float: right; /* Float the image to the right */
+      margin-left: 20px; /* Add some space between the image and the content */
+    }
+  </style>
+  </style>
+  <script>
+    // Smooth scrolling function
+    function scrollToSection(sectionId) {
+      var section = document.getElementById(sectionId);
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="scrollToSection('about')">About</a></li>
+        <li><a href="#" onclick="scrollToSection('login')">Login/Sign Up</a></li>
+        <li><a href="#" onclick="scrollToSection('team')">Team</a></li>
+        <li><a href="#" onclick="scrollToSection('instructions')">Instructions</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about">
+      <h1>Welcome to Skip Pro, Skip Like a Pro.</h1>
+      <p>Every student's one-stop solution to remove all attendance issues.</p>
+      <img src="college-image.jpg" alt="College Building" width="500" class="college-image">
+    </section>
+    <section id="login">
+      <h1>Login/Sign Up</h1>
+      <input type="email" id="email" class="email-input" placeholder="Enter your email">
+      <!-- Link the "Sign Up" button to signup.html -->
+      <a href="signup.html"><button>Sign Up</button></a>
+    </section>
+    <section id="team">
+      <h1>Team</h1>
+      <ul>
+        <li>Varshini</li>
+        <li>Yasaswini</li>
+        <li>Jaya Sri</li>
+        <li>Asha</li>
+        <li>Natasha</li>
+        <li>Yasheswini</li>
+      </ul>
+    </section>
+
+    <section id="instructions">
+      <h1>Instructions to Get Started</h1>
+      <ol>
+        <li>Give input</li>
+        <li>Update your attendance daily</li>
+        <li>Get your report!!</li>
+      </ol>
+      <div id="infinite-scroll-container">
+      </div>
+    </section>    
+  </main>  
+     <footer>
+      <div class="footer-content">
+        <h1>Contact</h1>
+        <p>Contact us at: SkipProHelpDesk@gmail.com</p>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+        <div class="social-media">
+          <h1>Connect</h1>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">X, Twitter</a></li>
+          </ul>         
+        
+      </div>
+    </footer>
+</body>
+</html>

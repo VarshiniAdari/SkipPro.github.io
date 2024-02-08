@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: #fff;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #555;
+            border-radius: 4px;
+            outline: none;
+            background-color: #333;
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form id="subjectForm">
+        Container for dynamic input fields
+        <div id="subjectInputsContainer"></div>
+
+        <button type="button" onclick="submitSubjectForm()"><i class="icon fas fa-check"></i>Submit</button>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Parse URL parameters
+                var urlParams = new URLSearchParams(window.location.search);
+                var numOfSubjects = parseInt(urlParams.get('noOfSubjects')) || 1; // Default to 1 if not provided
+
+                // Generate input fields for subjects
+                var container = document.getElementById('subjectInputsContainer');
+
+                for (var i = 1; i <= numOfSubjects; i++) {
+                    var label = document.createElement('label');
+                    label.setAttribute('for', 'subject-' + i);
+                    label.textContent = 'Subject ' + i + ':';
+
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'text');
+                    input.setAttribute('id', 'subject-' + i);
+                    input.setAttribute('name', 'subject-' + i);
+                    input.setAttribute('required', '');
+
+                    container.appendChild(label);
+                    container.appendChild(input);
+                }
+            });
+
+            function submitSubjectForm() {
+                // Gather form data
+                var formData = new FormData(document.getElementById('subjectForm'));
+
+                // Redirect to timetable.html with form data
+                window.location.href = 'timetable.html?' + new URLSearchParams(formData).toString();
+            }
+        </script>
+    </form>
+</body>
+
+</html>
